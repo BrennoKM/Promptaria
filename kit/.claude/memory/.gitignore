@@ -1,0 +1,7 @@
+# Memórias locais da Promptaria — NÃO versionar.
+# Cada dev mantém suas próprias memórias deste projeto na máquina.
+# A estrutura da pasta vai pro git (via este .gitignore e o README.md),
+# mas o conteúdo das memórias não.
+*
+!.gitignore
+!README.md
