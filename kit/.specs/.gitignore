@@ -3,5 +3,3 @@
 # A spec "oficial" mora upstream (vault SDLC, ClickUp/Jira/Linear) ou no
 # corpo do PR como Guia de Validação. Aqui é só workspace.
 *
-!.gitignore
-!README.md
