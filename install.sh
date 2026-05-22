@@ -117,6 +117,32 @@ fi
 echo "Copiando kit/ → $TARGET_DIR ..."
 cp -r "$KIT_DIR/." "$TARGET_DIR/"
 
+# Injeta entradas no .gitignore raiz do projeto destino
+# para garantir que .specs/ e .promptaria não sejam versionados.
+ROOT_GITIGNORE="$TARGET_DIR/.gitignore"
+
+inject_gitignore_block() {
+  local file="$1"
+  local marker="$2"
+  local block="$3"
+  # Só injeta se o marcador ainda não existir no arquivo
+  if ! grep -qF "$marker" "$file" 2>/dev/null; then
+    printf '\n%s\n' "$block" >> "$file"
+    echo "  ↳ entradas Promptaria adicionadas em $(basename "$file")"
+  fi
+}
+
+SPECS_BLOCK="# Promptaria: specs locais — apenas .gitignore e README.md são versionados
+.specs/*
+!.specs/.gitignore
+!.specs/README.md"
+
+PROMPTARIA_BLOCK="# Promptaria: marcador de configuração pendente (local, não versionar)
+.promptaria"
+
+inject_gitignore_block "$ROOT_GITIGNORE" "Promptaria: specs locais" "$SPECS_BLOCK"
+inject_gitignore_block "$ROOT_GITIGNORE" "Promptaria: marcador de configuração" "$PROMPTARIA_BLOCK"
+
 cat > "$TARGET_DIR/.promptaria" <<EOF
 # Marcador de configuração inicial da Promptaria
 
