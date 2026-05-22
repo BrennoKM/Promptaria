@@ -1,4 +1,4 @@
-# Regras Inegociáveis do Projeto — {{NOME_DO_PROJETO}}
+# Regras Inegociáveis do Projeto: {{NOME_DO_PROJETO}}
 
 > Regras específicas DESTE projeto que o agente NUNCA pode quebrar, mesmo que isso atrase a entrega.
 >
@@ -22,11 +22,11 @@
 <!--
   Exemplos de regras específicas de projeto (substitua pelas suas):
 
-  - **Migrations sempre com timestamp YYYYMMDDHHMMSS** — nunca versão sequencial pura. Evita conflito em dev paralelo.
-  - **Não usar Lombok neste repo** — decisão do time tomada em ADR-04; preferimos código explícito.
-  - **Toda PR precisa rodar `make lint`** — bloqueio de merge se falhar.
-  - **Não criar novo serviço sem aprovação do arquiteto** — para evitar fragmentação do sistema.
-  - **Endpoints REST sempre em /api/v1/** — versionamento obrigatório.
+  - **Migrations sempre com timestamp YYYYMMDDHHMMSS:** nunca versão sequencial pura. Evita conflito em dev paralelo.
+  - **Não usar Lombok neste repo:** decisão do time tomada em ADR-04; preferimos código explícito.
+  - **Toda PR precisa rodar `make lint`:** bloqueio de merge se falhar.
+  - **Não criar novo serviço sem aprovação do arquiteto:** para evitar fragmentação do sistema.
+  - **Endpoints REST sempre em /api/v1/:** versionamento obrigatório.
 -->
 
 ---

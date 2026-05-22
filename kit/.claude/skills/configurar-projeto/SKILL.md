@@ -23,6 +23,35 @@ Resultado final: `CLAUDE.md` preenchido + `.promptaria` removido.
 
 ---
 
+## Passo 0 — Detectar e fundir backups de instalação anterior
+
+Antes de qualquer coisa, procure por arquivos `*.bak-*` no projeto (raiz, `.claude/`, `.claude/skills/*/`). Esses arquivos são gerados pelo `install.sh` quando o instalador encontra arquivos do projeto diferentes da versão do kit (acontece em update, ou em instalação sobre projeto já existente).
+
+Se **não houver** nenhum `.bak-*`, pule este passo e vá pro Passo 1.
+
+Se **houver**, conduza a fusão antes de seguir:
+
+1. Liste os `.bak-*` encontrados pra quem solicita, agrupados por tipo:
+   - **Customização do time** (vai exigir fusão real): `CLAUDE.md.bak-*`, `.claude/regras-projeto.md.bak-*`
+   - **Infra da Promptaria modificada localmente** (geralmente o usuário só quer descartar a versão antiga): `.claude/specs.md.bak-*`, `.claude/guia-validacao.md.bak-*`, `.claude/skills/*/SKILL.md.bak-*`, qualquer `.gitignore.bak-*`
+
+2. Pra cada `.bak-*` da categoria "Customização do time":
+   - Mostre o diff entre o `.bak-*` e o arquivo novo correspondente.
+   - Pergunte: *"Quer manter o conteúdo antigo, o novo, ou fundir os dois?"*. Conduza a fusão item por item se for o caso.
+   - Aplique o resultado ao arquivo novo (sem o sufixo `.bak-*`).
+
+3. Pra cada `.bak-*` da categoria "Infra":
+   - Mostre o diff resumido (uma frase explicando o que mudou).
+   - Pergunte: *"Você tinha modificado esse arquivo de infra de propósito? Se sim, vou conduzir fusão. Se não, descarto o .bak-*."*.
+
+4. Ao final, pergunte: *"Posso apagar os `.bak-*` agora que o conteúdo foi fundido (ou descartado)?"*. Só apague com confirmação explícita. Nunca apague por iniciativa própria.
+
+5. Só depois disso, prossiga pro Passo 1.
+
+> **Não pule esta detecção.** Ignorar `.bak-*` significa perder customização do time silenciosamente, que é o motivo pelo qual o install.sh gera os backups em primeiro lugar.
+
+---
+
 ## Passo 1 — Inventariar o repositório
 
 Antes de qualquer pergunta, leia o que está no diretório:
@@ -107,7 +136,8 @@ Confira que estes arquivos existem na raiz do repositório:
 - [ ] `CLAUDE.md` (preenchido, sem `{{...}}` restantes)
 - [ ] `.claude/specs.md` (referência dos formatos)
 - [ ] `.claude/regras-projeto.md` (preenchido, sem `{{...}}` restantes)
-- [ ] `.claude/memory/README.md` + `.claude/memory/.gitignore` (sistema de memória local)
+- [ ] `.claude/.gitignore` (marca `skills/` e `memory/` como locais)
+- [ ] `.claude/memory/.gitignore` (sistema de memória local)
 - [ ] `.specs/README.md` + `.specs/.gitignore` (workspace local de rascunhos de spec)
 - [ ] `.claude/skills/configurar-projeto/SKILL.md` (esta própria)
 - [ ] `.claude/skills/formular-spec/SKILL.md`

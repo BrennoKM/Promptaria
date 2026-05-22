@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Promptaria — instalador
+# Promptaria: instalador
 #
 # Dois modos:
 #
@@ -73,29 +73,45 @@ if [ "$MODE" = "local" ] && [ "$TARGET_DIR" = "$SCRIPT_DIR" ]; then
   exit 1
 fi
 
-# Avisa se algum item-chave já existe no destino
-CONFLICTS=()
-for f in CLAUDE.md .claude .specs; do
-  if [ -e "$TARGET_DIR/$f" ]; then
-    CONFLICTS+=("$f")
+# Detecta arquivos conflitantes (file-level, recursivamente em kit/).
+# Só conta como conflito se o arquivo do destino DIFERE do que o kit traz.
+# Arquivos idênticos seriam sobrescritos por cópia idêntica, então não precisam de backup.
+CONFLICT_FILES=()
+while IFS= read -r -d '' src; do
+  rel="${src#$KIT_DIR/}"
+  dst="$TARGET_DIR/$rel"
+  if [ -f "$dst" ] && ! cmp -s "$src" "$dst"; then
+    CONFLICT_FILES+=("$rel")
   fi
-done
+done < <(find "$KIT_DIR" -type f -print0)
 
-if [ ${#CONFLICTS[@]} -gt 0 ]; then
-  echo "Os seguintes itens já existem no destino e serão sobrescritos/mesclados:"
-  for c in "${CONFLICTS[@]}"; do
-    echo "  - $c"
+TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+BACKUPS=()
+
+if [ ${#CONFLICT_FILES[@]} -gt 0 ]; then
+  echo "Os seguintes arquivos do projeto serão preservados como backup antes da instalação:"
+  for f in "${CONFLICT_FILES[@]}"; do
+    echo "  - $f → $f.bak-$TIMESTAMP"
   done
-  # Lê do terminal mesmo quando o script vem via pipe (curl | bash)
-  if [ -t 0 ] || [ -e /dev/tty ]; then
-    read -r -p "Continuar? [s/N] " resp < /dev/tty
-  else
-    resp="n"
+  echo ""
+
+  # Default é S (seguro: tem backup). Tenta abrir TTY; se não der, prossegue.
+  resp="s"
+  if { exec 3</dev/tty; } 2>/dev/null; then
+    read -r -p "Continuar? [S/n] " resp <&3
+    exec 3<&-
+    resp="${resp:-s}"
   fi
-  if [[ ! "$resp" =~ ^[Ss]$ ]]; then
+  if [[ ! "$resp" =~ ^[SsYy]$ ]]; then
     echo "Cancelado."
     exit 0
   fi
+
+  echo "Criando backups..."
+  for f in "${CONFLICT_FILES[@]}"; do
+    mv "$TARGET_DIR/$f" "$TARGET_DIR/$f.bak-$TIMESTAMP"
+    BACKUPS+=("$f.bak-$TIMESTAMP")
+  done
 fi
 
 echo "Copiando kit/ → $TARGET_DIR ..."
@@ -122,7 +138,23 @@ EOF
 echo ""
 echo "✓ Promptaria instalada em $TARGET_DIR (modo $MODE)"
 echo ""
+
+if [ ${#BACKUPS[@]} -gt 0 ]; then
+  echo "Backups dos arquivos anteriores do projeto (NÃO foram apagados):"
+  for b in "${BACKUPS[@]}"; do
+    echo "  - $b"
+  done
+  echo ""
+  echo "Esses .bak guardam o que estava no projeto antes da instalação."
+  echo "Quando você abrir o Claude Code (próximo passo), o agente detecta os .bak"
+  echo "e conduz a fusão com os arquivos novos durante a configuração."
+  echo ""
+fi
+
 echo "Próximo passo:"
 echo "  1. Abra o Claude Code neste diretório (\`claude\`)"
-echo "  2. Diga: \"configurar projeto\" — o agente vai te guiar"
+echo "  2. Diga: \"configurar projeto\" e o agente vai te guiar"
+echo ""
+echo "Atenção: .claude/skills/ e .claude/memory/ são LOCAIS (não vão pro git)."
+echo "Outros devs do time precisam rodar este install.sh por conta também."
 echo ""

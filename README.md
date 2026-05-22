@@ -62,7 +62,7 @@ Por isso o framework foca em três coisas:
 
 - **Stack-agnóstico**: o `CLAUDE.md` do projeto traz a stack. O framework funciona pra qualquer linguagem.
 - **Texto > Configuração**: tudo é markdown. Sem YAML, sem JSON, sem schema rígido.
-- **Cópia > Dependência**: o conteúdo de `kit/` é copiado pra raiz do projeto, não linkado. Cada projeto é dono da sua versão.
+- **Cópia > Dependência**: o conteúdo de `kit/` é copiado pra raiz do projeto, não linkado. O time é dono da sua versão dos arquivos compartilhados (`CLAUDE.md`, `specs.md`, etc.) e cada dev é dono da própria versão das skills.
 - **Demanda do humano, não do vault**: quem solicita cola o texto da demanda no chat. Funciona com qualquer fonte (ClickUp, Jira, Linear, papel).
 - **Inegociáveis acima de produtividade**: pedir aprovação antes de commitar, não inventar requisito, não pular hooks. Velocidade vem da confiança, não do atalho.
 
@@ -124,31 +124,37 @@ Se a skill não disparar sozinha, diga ao agente: *"configurar projeto"*.
 
 ### O que vai pro seu projeto
 
+Legenda: 🌐 versionado (compartilhado pelo time via git) · 💻 local (só na máquina do dev, ignorado pelo git)
+
 ```
 {seu-projeto}/
 ├── (código do projeto: src/, package.json, etc.)
-├── CLAUDE.md                                  ← preenchido com sua stack/processo
+├── CLAUDE.md                                  🌐 preenchido com sua stack/processo
 ├── .claude/
-│   ├── specs.md                               ← referência dos 4 formatos de spec e códigos
-│   ├── guia-validacao.md                      ← formato canônico do Guia de Validação
-│   ├── regras-projeto.md                      ← regras inegociáveis específicas do time
-│   ├── memory/                                ← memórias locais não-versionadas
-│   │   ├── README.md                          ← como funciona o sistema de memória
-│   │   ├── .gitignore                         ← ignora todo .md de memória
-│   │   └── (memórias criadas pelo agente, locais, não vão pro git)
-│   └── skills/
+│   ├── .gitignore                             🌐 marca skills/ e memory/ como locais
+│   ├── specs.md                               🌐 referência dos 4 formatos de spec e códigos
+│   ├── guia-validacao.md                      🌐 formato canônico do Guia de Validação
+│   ├── regras-projeto.md                      🌐 regras inegociáveis específicas do time
+│   ├── memory/                                💻 memórias pessoais de cada dev
+│   │   ├── .gitignore
+│   │   └── (memórias criadas pelo agente, não vão pro git)
+│   └── skills/                                💻 cada dev instala/atualiza Promptaria por conta
 │       ├── configurar-projeto/SKILL.md
 │       ├── formular-spec/SKILL.md
 │       ├── implementar-demanda/SKILL.md
 │       ├── validar-entrega/SKILL.md
 │       └── gerenciar-memoria/SKILL.md
-└── .specs/                                    ← workspace local de specs + backups de validação
+└── .specs/                                    💻 workspace local de specs + backups de validação
     ├── README.md
-    ├── .gitignore                             ← ignora todo .md interno
-    └── {NOME-DA-DEMANDA}/                     ← uma pasta por demanda
-        ├── spec.md                            ← rascunho da spec (se gerada por formular-spec)
-        └── validacao.md                       ← backup do Guia de Validação (salvo automaticamente)
+    ├── .gitignore                             (ignora todo .md interno)
+    └── {NOME-DA-DEMANDA}/                     uma pasta por demanda
+        ├── spec.md                            rascunho da spec (se gerada por formular-spec)
+        └── validacao.md                       backup do Guia de Validação (salvo automaticamente)
 ```
+
+> **Por que `skills/` é local?** As skills são "infra do agente", não do produto. Manter local evita que o repo carregue infraestrutura específica de ferramenta de IA, e deixa cada dev livre pra atualizar a Promptaria no próprio ritmo. O que o time precisa concordar (processo, regras, formato de spec) está nos arquivos versionados acima.
+>
+> **Pra compartilhar aprendizado entre devs**, use a seção "Aprendizados do projeto" no `CLAUDE.md` (versionado). A skill `gerenciar-memoria` já te conduz a salvar lá quando o conhecimento é coletivo.
 
 ---
 
@@ -168,18 +174,16 @@ A Promptaria reconhece 4 formatos de spec (História de Usuário, Feature Spec, 
 
 ## Atualizar a Promptaria depois
 
-Como o conteúdo é copiado (não linkado), atualizações não chegam automaticamente. Pra atualizar as skills sem perder o `CLAUDE.md` do seu projeto:
+**Basta rodar o `install.sh` de novo** (mesmo comando da instalação). O instalador é idempotente e seguro:
 
-```bash
-# Modo local (você tem o repo clonado):
-cp -r /caminho/pra/Promptaria/kit/.claude/. .claude/
+- Faz `cmp` arquivo-por-arquivo entre kit/ e o destino.
+- O que está **idêntico** ao kit (caso comum: skills, `specs.md`, `guia-validacao.md` que ninguém mexeu) é sobrescrito direto, sem backup.
+- O que está **diferente** (geralmente só `CLAUDE.md` e `regras-projeto.md`, customizados pelo time) é renomeado pra `.bak-{timestamp}` antes da cópia, pra você comparar e fundir manualmente.
+- Memória pessoal (`.claude/memory/*`), skills custom suas, e specs locais (`.specs/*`) nunca aparecem como conflito (não existem no kit), então ficam intactas.
 
-# Modo remoto (sem clonar):
-curl -fsSL https://github.com/BrennoKM/Promptaria/archive/refs/heads/main.tar.gz | \
-  tar -xz --strip-components=2 -C .claude/ Promptaria-main/kit/.claude
-```
+Update é **por dev**: cada um roda no próprio clone, já que skills são locais.
 
-> **Não sobrescreva o `CLAUDE.md`** nem o `.claude/regras-projeto.md` nem o conteúdo de `.claude/memory/`. Esses arquivos têm as customizações da Etapa 2 e o histórico de memória local.
+Pra arquivos versionados (`CLAUDE.md`, `specs.md`, `guia-validacao.md`, `regras-projeto.md`), quem mergear os .bak deveria fazer num PR pro time revisar, já que mexe com algo compartilhado.
 
 ---
 

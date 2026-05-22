@@ -1,4 +1,4 @@
-# Guia de Validação — Estrutura Obrigatória
+# Guia de Validação (Estrutura Obrigatória)
 
 > Formato canônico do Guia de Validação que toda entrega da Promptaria deve produzir.
 > Usado por `implementar-demanda` (gera) e `validar-entrega` (infere a partir de trabalho de terceiro).
@@ -7,7 +7,7 @@
 
 ## Por que existe
 
-O Guia de Validação resolve um problema comum: alguém recebe trabalho pra validar (em PR, branch ou entrega manual) sem saber **o que testar**, **como executar**, ou **o que NÃO testar**. Vira detetive — perde tempo e frequentemente deixa passar coisa.
+O Guia de Validação resolve um problema comum: alguém recebe trabalho pra validar (em PR, branch ou entrega manual) sem saber **o que testar**, **como executar**, ou **o que NÃO testar**. Vira detetive, perde tempo, e frequentemente deixa passar coisa.
 
 Toda entrega da Promptaria inclui esse Guia no corpo do PR (ou enviado pra quem for validar). Sem ele, a tarefa NÃO está pronta.
 
@@ -30,7 +30,7 @@ O que precisa estar configurado/cadastrado pra rodar o teste:
 - Feature flags a ligar
 
 ### 4. Como executar
-URL exata, comando, rota, tela ou fluxo de UI. Evite "vá na tela de X" — diga o caminho clicável.
+URL exata, comando, rota, tela ou fluxo de UI. Evite "vá na tela de X". Diga o caminho clicável.
 
 ### 5. Cenários a validar
 Um cenário por critério de aceite (AC/CS). Numere. Cada cenário tem passos numerados + resultado esperado verificável.
@@ -38,7 +38,7 @@ Um cenário por critério de aceite (AC/CS). Numere. Cada cenário tem passos nu
 Modelo:
 
 ```
-### 5.1 — [Nome do cenário, ex: criar agendamento com sucesso]
+### 5.1 [Nome do cenário, ex: criar agendamento com sucesso]
 Mapeia: AC-ASS-CRI-01 (se houver código formal)
 
 Passos:
@@ -59,11 +59,11 @@ O que tentar pra quebrar e como o erro DEVE aparecer. Inclui validações, confl
 Modelo:
 
 ```
-### 6.1 — Conflito de horário
+### 6.1 Conflito de horário
 Passos: repetir cenário 5.1 com mesmo médico e horário
 Esperado: erro "horário indisponível", agendamento NÃO criado
 
-### 6.2 — Sem permissão
+### 6.2 Sem permissão
 Passos: logar como paciente e tentar acessar /agendamentos/novo
 Esperado: redirect pra /login OU mensagem "acesso negado"
 ```
@@ -76,12 +76,12 @@ Exemplo:
 - Não foi feito: agendamento recorrente
 
 ### 8. Como reverter
-Se afeta dados, deploy ou config, descreva o rollback. Se não afeta, escreva "sem efeito colateral — basta reverter o merge".
+Se afeta dados, deploy ou config, descreva o rollback. Se não afeta, escreva "sem efeito colateral, basta reverter o merge".
 
 Exemplos:
 - "Reverter o merge desta PR. Migration X é não-destrutiva, pode ficar."
 - "Reverter o merge + rodar `migration:rollback 20260521120000`."
-- "Sem efeito colateral — basta reverter o merge."
+- "Sem efeito colateral, basta reverter o merge."
 
 ---
 

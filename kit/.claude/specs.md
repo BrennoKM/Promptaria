@@ -1,4 +1,4 @@
-# Formatos de Spec — Referência
+# Formatos de Spec (Referência)
 
 > Este documento define os 4 formatos de spec que a Promptaria reconhece, incluindo o significado de cada código (REQ, RN, AC, RT, HIP, CS, CF, CL, GAR).
 > Consulte sob demanda quando precisar **reconhecer** uma spec colada OU **construir** uma do zero.
@@ -18,7 +18,7 @@ Não é um formato fixo. O sujeito da spec muda o formato:
 | Hipótese a validar (PoC, spike) | Experiment Plan |
 | Contrato entre componentes (API, evento, schema) | Contract Spec |
 
-Spec boa passa no teste: *"se eu implementar isso, alguém pode dizer que ficou errado por interpretação diferente?"* — se a resposta é **não**, a spec é boa.
+Spec boa passa no teste: *"se eu implementar isso, alguém pode dizer que ficou errado por interpretação diferente?"*. Se a resposta é **não**, a spec é boa.
 
 ---
 
@@ -44,9 +44,9 @@ Exemplos:
 
 ---
 
-## Marcador `[DÚVIDA: ...]` — lacunas que travam o fluxo
+## Marcador `[DÚVIDA: ...]` (lacunas que travam o fluxo)
 
-Toda vez que um campo da spec não tem informação suficiente e nenhuma resposta foi confirmada, o agente **não pode inventar** — deve marcar com:
+Toda vez que um campo da spec não tem informação suficiente e nenhuma resposta foi confirmada, o agente **não pode inventar**. Deve marcar com:
 
 ```
 [DÚVIDA: <pergunta específica que precisa de resposta humana>]
@@ -63,21 +63,21 @@ REQ-LOGIN-03: Após 5 tentativas falhas, o usuário deve ser
 ### Regras do marcador
 
 - **Sempre com pergunta específica.** `[DÚVIDA: o que fazer aqui?]` é inútil. `[DÚVIDA: timeout em segundos ou em minutos?]` é acionável.
-- **Spec com qualquer `[DÚVIDA: ...]` não pode ir pra implementação.** O fluxo trava — quem solicita responde antes.
-- **Diferença pra `[a definir]`:** `[a definir]` é placeholder passivo (vamos preencher depois, sem urgência). `[DÚVIDA: ...]` é bloqueio ativo — precisa resposta.
+- **Spec com qualquer `[DÚVIDA: ...]` não pode ir pra implementação.** O fluxo trava. Quem solicita responde antes.
+- **Diferença pra `[a definir]`:** `[a definir]` é placeholder passivo (vamos preencher depois, sem urgência). `[DÚVIDA: ...]` é bloqueio ativo, precisa resposta.
 
 Esse mecanismo previne o erro mais comum do agente: preencher buracos com suposição plausível-mas-errada.
 
 ---
 
-## Formato 1 — História de Usuário
+## Formato 1: História de Usuário
 
 **Quando:** projeto tem usuário humano direto (recepcionista, médico, cliente, admin).
 
 ### Estrutura
 
 ```markdown
-# {MODULO-ACAO} — {Título curto}
+# {MODULO-ACAO}: {Título curto}
 
 ## 1. História de Usuário
 **Como** {papel}, **Quero** {ação}, **Para que** {benefício}.
@@ -86,7 +86,7 @@ Esse mecanismo previne o erro mais comum do agente: preencher buracos com suposi
 {Por que essa demanda existe? Qual problema o usuário enfrenta hoje?}
 
 ## 3. Dependências
-- Requer: [[outra-spec]] — {motivo}
+- Requer: [[outra-spec]] ({motivo})
 
 ## 4. Requisitos
 - **REQ-{MODULO-ACAO}-01:** O sistema **deve** {comportamento 1}.
@@ -96,7 +96,7 @@ Esse mecanismo previne o erro mais comum do agente: preencher buracos com suposi
 - **RN-{MODULO-ACAO}-01:** {restrição 1}.
 
 ## 6. Critérios de Aceite
-**Cenário AC-{MODULO-ACAO}-01 — {nome do cenário}**
+**Cenário AC-{MODULO-ACAO}-01: {nome do cenário}**
 **Dado que** {estado inicial}
 **Quando** {ação}
 **Então** {resultado esperado}
@@ -111,7 +111,7 @@ Esse mecanismo previne o erro mais comum do agente: preencher buracos com suposi
 ### Exemplo curto
 
 ```
-# AGE-CRI — Criar agendamento
+# AGE-CRI: Criar agendamento
 
 História: Como recepcionista, quero criar agendamento para paciente,
 para que o paciente saiba quando virá ao consultório.
@@ -121,12 +121,12 @@ REQ-AGE-CRI-01: O sistema deve permitir criar agendamento com data,
 RN-AGE-CRI-01:  Não pode haver dois agendamentos no mesmo horário
                 para o mesmo médico.
 
-AC-AGE-CRI-01 — Criação com sucesso
+AC-AGE-CRI-01: Criação com sucesso
   Dado paciente "João" e médico "Dr. Costa" cadastrados
   Quando criar agendamento para 20/05 14h
   Então mostrar "Agendamento criado" e listar na agenda do médico
 
-AC-AGE-CRI-02 — Conflito de horário
+AC-AGE-CRI-02: Conflito de horário
   Dado já existe agendamento para Dr. Costa em 20/05 14h
   Quando tentar criar outro nesse horário
   Então rejeitar com "horário indisponível"
@@ -149,25 +149,25 @@ Antes da spec sair pra implementação, ela DEVE passar neste checklist:
 
 ---
 
-## Formato 2 — Feature Spec
+## Formato 2: Feature Spec
 
 **Quando:** módulo/feature técnica interna, sem UX direta. Ex: biblioteca, plugin, decorator, módulo plugável.
 
 ### Estrutura
 
 ```markdown
-# {NOME} — {Título curto}
+# {NOME}: {Título curto}
 
 ## 1. Propósito Técnico
 {O que esse módulo faz do ponto de vista do sistema, sem referência a usuário final.}
 
 ## 2. Contrato Público
-- **Expõe:** `{símbolo público}` — {propósito}
+- **Expõe:** `{símbolo público}` ({propósito})
 - **Não expõe:** {detalhes ocultados intencionalmente}
 
 ## 3. Integração
-- **Consome:** `{dependência}` — {vem de qual módulo}
-- **Publica eventos:** `{NomeDoEvento}` — {quando dispara}
+- **Consome:** `{dependência}` ({vem de qual módulo})
+- **Publica eventos:** `{NomeDoEvento}` ({quando dispara})
 - **Feature flag:** `{nome.da.flag}` (se plugável)
 
 ## 4. Requisitos Técnicos
@@ -177,7 +177,7 @@ Antes da spec sair pra implementação, ela DEVE passar neste checklist:
 - **RT-{NOME}-01:** {invariante 1}.
 
 ## 6. Critérios de Aceite Técnicos
-**Cenário AC-{NOME}-01 — {nome}**
+**Cenário AC-{NOME}-01: {nome}**
 **Dado** {estado técnico}
 **Quando** {ação/chamada}
 **Então** {resultado verificável}
@@ -192,7 +192,7 @@ Antes da spec sair pra implementação, ela DEVE passar neste checklist:
 ### Exemplo curto
 
 ```
-# RETRY — Retry com backoff exponencial
+# RETRY: Retry com backoff exponencial
 
 Propósito: adicionar retry automático em operações que falham com erro
 transiente, sem caller implementar lógica própria.
@@ -207,7 +207,7 @@ REQ-RETRY-02: O módulo deve lançar ErrRetryExhausted após esgotar tentativas.
 RT-RETRY-01: O módulo não pode introduzir dependência externa.
 RT-RETRY-02: O módulo não pode reentrar em erros não-transientes.
 
-AC-RETRY-01 — Retry com sucesso na 2ª tentativa
+AC-RETRY-01: Retry com sucesso na 2ª tentativa
   Dado provider falha 1x e tem sucesso na 2ª
   Quando Publish(msg) for chamado
   Então retorno deve ser sucesso após o delay configurado
@@ -228,14 +228,14 @@ AC-RETRY-01 — Retry com sucesso na 2ª tentativa
 
 ---
 
-## Formato 3 — Experiment Plan
+## Formato 3: Experiment Plan
 
 **Quando:** validar uma hipótese arquitetural ou de produto. PoC, spike, A/B test, prova de padrão.
 
 ### Estrutura
 
 ```markdown
-# {NOME} — {Título curto}
+# {NOME}: {Título curto}
 
 ## 1. Hipótese
 **HIP-{NOME}-01:** {afirmação falsificável em uma frase}
@@ -268,7 +268,7 @@ AC-RETRY-01 — Retry com sucesso na 2ª tentativa
 ### Exemplo curto
 
 ```
-# PLUGGABLE-BUILD — Build script suporta composição arbitrária de features
+# PLUGGABLE-BUILD: Build script suporta composição arbitrária de features
 
 HIP-PLUGGABLE-BUILD-01: O build script consegue produzir artefato funcional
 com qualquer subconjunto de features (0..N), sem código órfão.
@@ -296,14 +296,14 @@ CF-PLUGGABLE-BUILD-01: build com 2 features mostra efeito colateral entre elas
 
 ---
 
-## Formato 4 — Contract Spec
+## Formato 4: Contract Spec
 
-**Quando:** definir contrato entre dois componentes — API, evento, schema, protocolo.
+**Quando:** definir contrato entre dois componentes (API, evento, schema, protocolo).
 
 ### Estrutura
 
 ```markdown
-# {NOME} — {Título curto}
+# {NOME}: {Título curto}
 
 ## 1. Partes
 - **Publisher:** {módulo dono do contrato}
@@ -336,7 +336,7 @@ CF-PLUGGABLE-BUILD-01: build com 2 features mostra efeito colateral entre elas
 ### Exemplo curto
 
 ```
-# USER-EVENTS — Eventos de domínio do módulo User
+# USER-EVENTS: Eventos de domínio do módulo User
 
 Publisher: módulo User
 Consumidores: audit-log, notifications
@@ -372,7 +372,7 @@ GAR-USER-EVENTS-02: Ordem não garantida (use timestamp se precisar)
 | "Propósito Técnico", "Contrato Público", códigos REQ + RT | Feature Spec |
 | "Hipótese", códigos HIP/CS/CF, "Procedimento" | Experiment Plan |
 | "Schema", "Publisher"/"Consumers", códigos CL/GAR | Contract Spec |
-| Bullets soltos, sem códigos, sem estrutura | Texto livre — aplicar precisão antes de codar |
+| Bullets soltos, sem códigos, sem estrutura | Texto livre, aplicar precisão antes de codar |
 
 ---
 

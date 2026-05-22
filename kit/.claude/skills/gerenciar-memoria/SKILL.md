@@ -231,3 +231,15 @@ Quando o usuário perguntar "o que sabemos sobre X":
 - **Não escrever memória vaga** ("X é importante"). Sempre concreto: o que, por quê, exemplo.
 - **Não escolher destino errado.** Preferência pessoal NÃO vai pro CLAUDE.md (poluiria). Termo de domínio do projeto NÃO vai pra memory/ (perdia compartilhamento). Em dúvida, perguntar.
 - **Não despejar aprendizados em massa no CLAUDE.md.** Cada item lá deve ser realmente útil pra todo mundo. Se virar lista de 30 itens, sinal pra refatorar (virar regra, virar comentário no código, ou ser ignorado por irrelevância).
+
+---
+
+## Notas sobre versionamento
+
+A pasta `.claude/memory/` **não vai pro git** por padrão (é ignorada pelo `.gitignore` de `.claude/`). Decisão deliberada:
+
+- **Privacidade:** evita que contexto de domínio (clientes, dados, decisões internas) vaze pro repo.
+- **Personalização:** cada dev acumula sua própria leitura do projeto sem brigar em merge.
+- **Simplicidade:** zero overhead de PR review pra mudanças de memória.
+
+Quando o usuário quer **compartilhar conhecimento entre devs**, o canal correto é a seção "Aprendizados do projeto" no `CLAUDE.md` (versionada). Não tente reverter o gitignore pra "compartilhar memory/" — o `CLAUDE.md` existe exatamente pra isso e força a curadoria (cada item lá precisa valer a pena pra todos).

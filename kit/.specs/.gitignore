@@ -1,4 +1,4 @@
-# Specs locais (rascunhos) — NÃO versionar.
+# Specs locais (rascunhos). NÃO versionar.
 # Quem solicitou usa este diretório como cantinho de prototipagem de specs.
 # A spec "oficial" mora upstream (vault SDLC, ClickUp/Jira/Linear) ou no
 # corpo do PR como Guia de Validação. Aqui é só workspace.
