@@ -49,7 +49,7 @@ Antes de planejar, identifique qual tipo de spec foi colada. Veja a tabela em `C
   - **Experiment Plan:** Hipótese (HIP) + Procedimento + CS + CF + Métricas
   - **Contract Spec:** Schema + CL + GAR + Casos de Erro + Versionamento
 - Se algum elemento essencial faltar, pergunte antes de seguir
-- **Procure por marcadores `[DÚVIDA: ...]` na spec.** Se houver qualquer um, PARE imediatamente: liste todos pra quem solicita e peça resposta antes de seguir. Spec com `[DÚVIDA: ...]` não pode virar código (ver `.claude/specs.md` seção do marcador)
+- **Procure por marcadores `[DÚVIDA: ...]` na spec.** Se houver qualquer um, PARE imediatamente: liste todos pra quem solicita e peça resposta antes de seguir. Spec com `[DÚVIDA: ...]` não pode virar código (ver `.claude/processos/specs.md` seção do marcador)
 
 ### 1b. Se for texto livre
 
@@ -182,7 +182,7 @@ Se algum item falha: PARE, complete cobertura, **não avance**.
 
 ### 5a. Guia de Validação
 
-Produza um Guia de Validação seguindo a estrutura definida em [`.claude/guia-validacao.md`](../../guia-validacao.md). Ele responde 8 seções obrigatórias:
+Produza um Guia de Validação seguindo a estrutura definida em [`.claude/templates/guia-validacao.md`](../../templates/guia-validacao.md). Ele responde 8 seções obrigatórias:
 
 1. **O que foi entregue** — 2-3 linhas, direto.
 2. **Referência da demanda** — link do card ou código da spec.
@@ -193,7 +193,7 @@ Produza um Guia de Validação seguindo a estrutura definida em [`.claude/guia-v
 7. **Fora do escopo (NÃO testar)** — copie da seção "Fora do Escopo" da spec.
 8. **Como reverter** — rollback se aplicável; "sem efeito colateral" caso contrário.
 
-Detalhes completos de cada seção (com exemplos): veja [`.claude/guia-validacao.md`](../../guia-validacao.md).
+Detalhes completos de cada seção (com exemplos): veja [`.claude/templates/guia-validacao.md`](../../templates/guia-validacao.md).
 
 ### Teste de qualidade do guia (auto-checklist)
 
@@ -208,7 +208,7 @@ Se algum item falhar, o guia ainda não está pronto.
 
 ### 5b. Guia de Contexto Técnico
 
-Produza também um Guia de Contexto Técnico seguindo a estrutura definida em [`.claude/guia-contexto-tecnico.md`](../../guia-contexto-tecnico.md). Ele responde 6 seções obrigatórias:
+Produza também um Guia de Contexto Técnico seguindo a estrutura definida em [`.claude/templates/guia-contexto-tecnico.md`](../../templates/guia-contexto-tecnico.md). Ele responde 6 seções obrigatórias:
 
 1. **O que foi alterado** — efeito técnico, antes vs depois.
 2. **Referência da demanda** — link do card + códigos formais entregues.
@@ -217,7 +217,7 @@ Produza também um Guia de Contexto Técnico seguindo a estrutura definida em [`
 5. **Validações aplicadas** — RN, RT, guards, permissões, tratamento de erro.
 6. **Possíveis impactos colaterais** — features, jobs, índices, caches afetados indiretamente.
 
-Detalhes completos com exemplos: veja [`.claude/guia-contexto-tecnico.md`](../../guia-contexto-tecnico.md).
+Detalhes completos com exemplos: veja [`.claude/templates/guia-contexto-tecnico.md`](../../templates/guia-contexto-tecnico.md).
 
 ### Teste de qualidade dos guias (auto-checklist)
 
@@ -278,7 +278,7 @@ Se algum item falha: PARE, refine, **não avance**.
 Monte localmente:
 - **Nome da branch** seguindo o padrão descrito em `CLAUDE.md → Padrão de branch` (criar a branch local com `git checkout -b` é OK, é local)
 - **Título do PR** — curto, descreve a entrega (não copie título do card; resuma o que mudou)
-- **Corpo do PR** — o Guia de Validação + Guia de Contexto Técnico do Passo 5, concatenados (Validação primeiro, Contexto Técnico abaixo, com separador). Seguir [`.claude/guia-validacao.md`](../../guia-validacao.md) e [`.claude/guia-contexto-tecnico.md`](../../guia-contexto-tecnico.md)
+- **Corpo do PR** — o Guia de Validação + Guia de Contexto Técnico do Passo 5, concatenados (Validação primeiro, Contexto Técnico abaixo, com separador). Seguir [`.claude/templates/guia-validacao.md`](../../templates/guia-validacao.md) e [`.claude/templates/guia-contexto-tecnico.md`](../../templates/guia-contexto-tecnico.md)
 
 ### 6b. Entregar como bloco copy-paste
 

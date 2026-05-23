@@ -16,7 +16,7 @@ Construir uma spec a partir de uma demanda crua, de forma interativa. Útil quan
 
 ## Princípio operacional
 
-A skill **escolhe o formato certo primeiro**, depois conduz uma conversa estruturada que preenche cada seção. O resultado é um bloco markdown completo, copy-paste-ready, no formato definido em `.claude/specs.md`.
+A skill **escolhe o formato certo primeiro**, depois conduz uma conversa estruturada que preenche cada seção. O resultado é um bloco markdown completo, copy-paste-ready, no formato definido em `.claude/processos/specs.md`.
 
 Spec não é teatro — não preencher só por preencher. Se uma seção não se aplica, marcar "N/A" ou omitir.
 
@@ -52,7 +52,7 @@ Confirme o formato com quem solicita antes de prosseguir. Mostre por quê escolh
 
 ## Passo 2 — Coletar conteúdo (varia por formato)
 
-Consulte `.claude/specs.md` pra estrutura completa de cada formato. Resumo do que perguntar por formato:
+Consulte `.claude/processos/specs.md` pra estrutura completa de cada formato. Resumo do que perguntar por formato:
 
 ### História de Usuário
 
@@ -106,7 +106,7 @@ Consulte `.claude/specs.md` pra estrutura completa de cada formato. Resumo do qu
 > - Se quem solicita **vai decidir depois sem urgência** → marque `[a definir]` e siga.
 > - Se quem solicita **não sabe e a resposta é necessária pra implementar** → marque `[DÚVIDA: <pergunta específica>]`. Spec com `[DÚVIDA: ...]` não pode ir pra implementação até a resposta vir.
 >
-> Ver `.claude/specs.md` seção "Marcador `[DÚVIDA: ...]`" pra regras completas.
+> Ver `.claude/processos/specs.md` seção "Marcador `[DÚVIDA: ...]`" pra regras completas.
 
 ---
 

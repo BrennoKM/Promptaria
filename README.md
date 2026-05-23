@@ -62,7 +62,7 @@ Por isso o framework foca em três coisas:
 
 - **Stack-agnóstico**: o `CLAUDE.md` do projeto traz a stack. O framework funciona pra qualquer linguagem.
 - **Texto > Configuração**: tudo é markdown. Sem YAML, sem JSON, sem schema rígido.
-- **Cópia > Dependência**: o conteúdo de `kit/` é copiado pra raiz do projeto, não linkado. O time é dono da sua versão dos arquivos compartilhados (`CLAUDE.md`, `specs.md`, etc.) e cada dev é dono da própria versão das skills.
+- **Cópia > Dependência**: o conteúdo de `kit/` é copiado pra raiz do projeto, não linkado. O time é dono da sua versão dos arquivos compartilhados (`CLAUDE.md`, `processos/specs.md`, etc.) e cada dev é dono da própria versão das skills.
 - **Demanda do humano, não do vault**: quem solicita cola o texto da demanda no chat. Funciona com qualquer fonte (ClickUp, Jira, Linear, papel).
 - **Inegociáveis acima de produtividade**: pedir aprovação antes de commitar, não inventar requisito, não pular hooks. Velocidade vem da confiança, não do atalho.
 
@@ -106,7 +106,7 @@ O script detecta automaticamente que tem `kit/` adjacente e usa o conteúdo loca
 
 #### O que o `install.sh` faz (ambos os modos)
 
-- Copia o conteúdo de `kit/` (CLAUDE.md, skills, specs.md, etc.) pra raiz do projeto
+- Copia o conteúdo de `kit/` (CLAUDE.md, skills, processos/specs.md, etc.) pra raiz do projeto
 - Cria o marcador `.promptaria` pra sinalizar que a configuração interativa ainda não foi feita
 - Pede confirmação se algum arquivo conflitante já existir (`CLAUDE.md`, `.claude/`, `.specs/`)
 
@@ -132,10 +132,12 @@ Legenda: 🌐 versionado (compartilhado pelo time via git) · 💻 local (só na
 ├── CLAUDE.md                                  🌐 preenchido com sua stack/processo
 ├── .claude/
 │   ├── .gitignore                             🌐 marca skills/ e memory/ como locais
-│   ├── specs.md                               🌐 referência dos 4 formatos de spec e códigos
-│   ├── guia-validacao.md                      🌐 formato canônico do Guia de Validação
-│   ├── guia-contexto-tecnico.md               🌐 formato canônico do Guia de Contexto Técnico
 │   ├── regras-projeto.md                      🌐 regras inegociáveis específicas do time
+│   ├── processos/
+│   │   └── specs.md                           🌐 referência dos 4 formatos de spec e códigos
+│   ├── templates/
+│   │   ├── guia-validacao.md                  🌐 formato canônico do Guia de Validação
+│   │   └── guia-contexto-tecnico.md           🌐 formato canônico do Guia de Contexto Técnico
 │   ├── memory/                                💻 memórias pessoais de cada dev
 │   │   ├── .gitignore
 │   │   └── (memórias criadas pelo agente, não vão pro git)
@@ -168,7 +170,7 @@ Depois de instalado, cole uma demanda no chat. O agente reconhece o formato e di
 - **Demanda vem como texto vago** (bullets, descrição livre sem critérios) → `formular-spec`: construir a spec interativamente primeiro, depois implementar
 - **Trabalho feito por terceiro precisa de roteiro de teste** → `validar-entrega`: lê o diff, infere o que foi feito e produz o Guia de Validação pra você colar
 
-A Promptaria reconhece 4 formatos de spec (História de Usuário, Feature Spec, Experiment Plan, Contract Spec) com códigos próprios (REQ, RN, AC, RT, HIP, CS, CF, CL, GAR). A referência completa fica em `.claude/specs.md` no projeto instalado, e o agente consulta sob demanda.
+A Promptaria reconhece 4 formatos de spec (História de Usuário, Feature Spec, Experiment Plan, Contract Spec) com códigos próprios (REQ, RN, AC, RT, HIP, CS, CF, CL, GAR). A referência completa fica em `.claude/processos/specs.md` no projeto instalado, e o agente consulta sob demanda.
 
 > **O agente nunca publica nada externo por iniciativa própria.** Não dá `git push`, não abre PR, não posta comentário. Ele prepara tudo prontinho pra copiar e colar e instrui passo a passo. Quem solicitou continua no controle de tudo que sai pra fora da máquina.
 
@@ -179,13 +181,13 @@ A Promptaria reconhece 4 formatos de spec (História de Usuário, Feature Spec, 
 **Basta rodar o `install.sh` de novo** (mesmo comando da instalação). O instalador é idempotente e seguro:
 
 - Faz `cmp` arquivo-por-arquivo entre kit/ e o destino.
-- O que está **idêntico** ao kit (caso comum: skills, `specs.md`, `guia-validacao.md` que ninguém mexeu) é sobrescrito direto, sem backup.
+- O que está **idêntico** ao kit (caso comum: skills, `processos/specs.md`, `templates/guia-validacao.md` que ninguém mexeu) é sobrescrito direto, sem backup.
 - O que está **diferente** (geralmente só `CLAUDE.md` e `regras-projeto.md`, customizados pelo time) é renomeado pra `.bak-{timestamp}` antes da cópia, pra você comparar e fundir manualmente.
 - Memória pessoal (`.claude/memory/*`), skills custom suas, e specs locais (`.specs/*`) nunca aparecem como conflito (não existem no kit), então ficam intactas.
 
 Update é **por dev**: cada um roda no próprio clone, já que skills são locais.
 
-Pra arquivos versionados (`CLAUDE.md`, `specs.md`, `guia-validacao.md`, `regras-projeto.md`), quem mergear os .bak deveria fazer num PR pro time revisar, já que mexe com algo compartilhado.
+Pra arquivos versionados (`CLAUDE.md`, `processos/specs.md`, `templates/guia-validacao.md`, `regras-projeto.md`), quem mergear os .bak deveria fazer num PR pro time revisar, já que mexe com algo compartilhado.
 
 ---
 

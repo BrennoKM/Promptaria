@@ -73,7 +73,7 @@ A demanda colada pode ser uma de quatro **specs formais** ou texto livre. Reconh
 | **Contract Spec** | "Schema", "Partes (publisher/consumers)", códigos `CL-XXX-NN`, `GAR-XXX-NN` | Definição de contrato (API, evento, schema) |
 | **Texto livre** | Bullets soltos, linguagem natural, sem códigos ou estrutura formal | Spec incompleta, aplicar precisão antes de codar |
 
-> **Referência completa dos formatos e dos códigos** (REQ, RN, AC, RT, HIP, CS, CF, CL, GAR): veja [`.claude/specs.md`](.claude/specs.md). Leia esse arquivo sob demanda quando precisar reconhecer uma spec colada OU construir uma do zero.
+> **Referência completa dos formatos e dos códigos** (REQ, RN, AC, RT, HIP, CS, CF, CL, GAR): veja [`.claude/processos/specs.md`](.claude/processos/specs.md). Leia esse arquivo sob demanda quando precisar reconhecer uma spec colada OU construir uma do zero.
 
 ### Princípio operacional
 
@@ -98,7 +98,7 @@ Em todos os casos: **não invente requisito**.
 - **Nunca pule hooks de pre-commit** (`--no-verify`) sem permissão explícita.
 - **PR sempre** com base na branch definida na seção `Padrão de branch` deste arquivo.
 - **Se a demanda tem códigos formais** (REQ, RN, AC, RT, HIP, CS, CF, CL, GAR), trate-os como **contrato**. Cada código deve aparecer rastreável no plano, na implementação e nos testes.
-- **Toda entrega exige Guia de Validação E Guia de Contexto Técnico.** Sem ambos, a tarefa NÃO está pronta. Vão junto na descrição do PR (Validação primeiro, Contexto Técnico abaixo) e, recomendado, no comentário do card. O de Validação fala com quem testa; o de Contexto Técnico fala com quem revisa código ou faz manutenção depois. Formatos em [`.claude/guia-validacao.md`](.claude/guia-validacao.md) e [`.claude/guia-contexto-tecnico.md`](.claude/guia-contexto-tecnico.md). Aplica-se a tudo: feature, bugfix, refactor, ajuste de config.
+- **Toda entrega exige Guia de Validação E Guia de Contexto Técnico.** Sem ambos, a tarefa NÃO está pronta. Vão junto na descrição do PR (Validação primeiro, Contexto Técnico abaixo) e, recomendado, no comentário do card. O de Validação fala com quem testa; o de Contexto Técnico fala com quem revisa código ou faz manutenção depois. Formatos em [`.claude/templates/guia-validacao.md`](.claude/templates/guia-validacao.md) e [`.claude/templates/guia-contexto-tecnico.md`](.claude/templates/guia-contexto-tecnico.md). Aplica-se a tudo: feature, bugfix, refactor, ajuste de config.
 - **Nunca publique nada externo por iniciativa própria.** Sem `git push`, sem `gh pr create`, sem `gh pr comment`. Prepare tudo copy-paste e instrua quem solicitou a executar.
 
 ## Regras inegociáveis do projeto
@@ -149,5 +149,5 @@ _(nenhum aprendizado registrado ainda)_
 - [validar-entrega](.claude/skills/validar-entrega/SKILL.md): gerar Guia de Validação pra trabalho feito por terceiro (outra pessoa, outro time). Útil pra quem recebe PR sem roteiro de teste e precisa produzir um.
 - [gerenciar-memoria](.claude/skills/gerenciar-memoria/SKILL.md): salvar/atualizar/consultar memórias locais do projeto em `.claude/memory/`. Use ao descobrir convenção/decisão/gotcha que vai ser útil em sessões futuras.
 
-> **Referência de formatos de spec:** [`.claude/specs.md`](.claude/specs.md)
+> **Referência de formatos de spec:** [`.claude/processos/specs.md`](.claude/processos/specs.md)
 > **Memórias acumuladas deste projeto:** [`.claude/memory/MEMORY.md`](.claude/memory/MEMORY.md) (índice; leia no início de tarefas relevantes; carregue memórias individuais sob demanda)

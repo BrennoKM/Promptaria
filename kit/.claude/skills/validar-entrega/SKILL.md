@@ -16,7 +16,7 @@ Produzir um Guia de Validação a partir de trabalho feito por terceiro (outra p
 
 ## Princípio operacional
 
-Diferente do `implementar-demanda`, aqui você **não codou**. Você é detetive: lê o diff, lê o card original (se houver), lê os testes existentes, e infere o que precisa ser validado. O resultado tem o mesmo formato do Guia de Validação definido em [`.claude/guia-validacao.md`](../../guia-validacao.md).
+Diferente do `implementar-demanda`, aqui você **não codou**. Você é detetive: lê o diff, lê o card original (se houver), lê os testes existentes, e infere o que precisa ser validado. O resultado tem o mesmo formato do Guia de Validação definido em [`.claude/templates/guia-validacao.md`](../../templates/guia-validacao.md).
 
 Se ficar muito incerto sobre intenção, **pergunte** antes de produzir o guia — guia inventado é pior que sem guia.
 
@@ -102,7 +102,7 @@ Do diff, infira:
 
 ## Passo 8 — Gerar o guia
 
-Use o mesmo formato definido em [`.claude/guia-validacao.md`](../../guia-validacao.md). As 8 seções obrigatórias:
+Use o mesmo formato definido em [`.claude/templates/guia-validacao.md`](../../templates/guia-validacao.md). As 8 seções obrigatórias:
 
 1. O que foi entregue
 2. Referência da demanda

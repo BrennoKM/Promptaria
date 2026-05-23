@@ -33,7 +33,7 @@ Se **houver**, conduza a fusão antes de seguir:
 
 1. Liste os `.bak-*` encontrados pra quem solicita, agrupados por tipo:
    - **Customização do time** (vai exigir fusão real): `CLAUDE.md.bak-*`, `.claude/regras-projeto.md.bak-*`
-   - **Infra da Promptaria modificada localmente** (geralmente o usuário só quer descartar a versão antiga): `.claude/specs.md.bak-*`, `.claude/guia-validacao.md.bak-*`, `.claude/skills/*/SKILL.md.bak-*`, qualquer `.gitignore.bak-*`
+   - **Infra da Promptaria modificada localmente** (geralmente o usuário só quer descartar a versão antiga): `.claude/processos/specs.md.bak-*`, `.claude/templates/guia-validacao.md.bak-*`, `.claude/templates/guia-contexto-tecnico.md.bak-*`, `.claude/skills/*/SKILL.md.bak-*`, qualquer `.gitignore.bak-*`
 
 2. Pra cada `.bak-*` da categoria "Customização do time":
    - Mostre o diff entre o `.bak-*` e o arquivo novo correspondente.
@@ -134,7 +134,7 @@ Não toque na seção "Como usar este arquivo" — ela é fixa.
 Confira que estes arquivos existem na raiz do repositório:
 
 - [ ] `CLAUDE.md` (preenchido, sem `{{...}}` restantes)
-- [ ] `.claude/specs.md` (referência dos formatos)
+- [ ] `.claude/processos/specs.md` (referência dos formatos)
 - [ ] `.claude/regras-projeto.md` (preenchido, sem `{{...}}` restantes)
 - [ ] `.claude/.gitignore` (marca `skills/` e `memory/` como locais)
 - [ ] `.claude/memory/.gitignore` (sistema de memória local)
@@ -144,7 +144,8 @@ Confira que estes arquivos existem na raiz do repositório:
 - [ ] `.claude/skills/implementar-demanda/SKILL.md`
 - [ ] `.claude/skills/validar-entrega/SKILL.md`
 - [ ] `.claude/skills/gerenciar-memoria/SKILL.md`
-- [ ] `.claude/guia-validacao.md`
+- [ ] `.claude/templates/guia-validacao.md`
+- [ ] `.claude/templates/guia-contexto-tecnico.md`
 
 Se algum estiver faltando, avisar o usuário (possível instalação incompleta).
 
