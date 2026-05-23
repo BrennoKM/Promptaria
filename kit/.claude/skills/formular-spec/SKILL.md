@@ -125,32 +125,38 @@ Se algum item falha, volte ao Passo 2 nas seções relevantes.
 
 ---
 
-## Passo 4 — Entregar a spec
+## Passo 4 — Salvar localmente e entregar
+
+### 4a. Salvar em `.specs/` (padrão, obrigatório)
+
+Salve a spec em `.specs/{NOME}/spec.md`, onde `{NOME}` é o código da spec em maiúsculas (ex: `.specs/RETRY/spec.md`, `.specs/AGE-CRI/spec.md`).
+
+- Se a pasta `.specs/{NOME}/` não existir, crie.
+- Se já existir `spec.md` no destino, sobrescreva — esta versão é a mais recente.
+- Confirme ao usuário: *"Spec salva em `.specs/{NOME}/spec.md`. Esse arquivo NÃO vai pro git (é gitignorado), é só pra consulta local enquanto você trabalha. Cole o bloco abaixo no card do tracker pra o time enxergar."*
+
+> **Nunca salve em `specs/` (sem ponto).** Essa pasta seria versionada. Se quem solicita pedir explicitamente `specs/`, mencione o tradeoff antes de salvar.
+
+### 4b. Entregar bloco copy-paste
 
 Apresente a spec completa como bloco markdown copy-paste-ready:
 
 ```
 ─────────────────────────────────────────────────────
-SPEC ({formato}) — {nome curto}
+SPEC ({formato}): {nome curto}
 ─────────────────────────────────────────────────────
 {spec completa}
 ─────────────────────────────────────────────────────
+
+📁 Backup local salvo em: .specs/{NOME}/spec.md
+   Cole o bloco acima no card do tracker (ClickUp/Jira/Linear/etc.)
+   pra o time ter acesso.
+─────────────────────────────────────────────────────
 ```
-
-Em seguida, ofereça as opções de destino:
-
-> Onde você quer guardar essa spec?
-> 1. **Só me dá o bloco** pra eu colar onde quiser (ClickUp/Jira, vault SDLC, papel) — já fiz isso acima ☝️
-> 2. **Salva em `.specs/{NOME}/spec.md`** — workspace local não-versionado (cantinho de rascunho)
-> 3. **Ambos** — entrego o bloco E salvo em `.specs/`
-
-Se escolherem 2 ou 3, salve em `.specs/{NOME}/spec.md` (use o `código` da spec como nome da pasta — letras maiúsculas; ex: `.specs/RETRY/spec.md`, `.specs/AGE-CRI/spec.md`). Crie a pasta `.specs/{NOME}/` se não existir.
-
-> **Nunca salve em `specs/` (sem ponto) por iniciativa própria.** Essa pasta seria versionada — fora do default da Promptaria. Se quem solicita pedir explicitamente, OK, mas mencione o tradeoff (vai pro git).
 
 Depois, pergunte: *"quer que eu siga pra implementar essa spec agora? (skill `implementar-demanda`)"*
 
-Se sim, a spec construída já vai como input formal pro `implementar-demanda` — o agente vai tratar todos os códigos (REQ/AC/etc.) como contrato verificável.
+Se sim, a spec construída já vai como input formal pro `implementar-demanda` — o agente vai tratar todos os códigos (REQ/AC/etc.) como contrato verificável. O arquivo `.specs/{NOME}/spec.md` já existe, não precisa salvar de novo.
 
 ---
 

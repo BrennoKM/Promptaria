@@ -81,7 +81,25 @@ Se algum item falha: PARE, peça resposta, **não avance**.
 
 ---
 
-## Passo 2 — Planejar
+## Passo 2 — Salvar a spec localmente e planejar
+
+### 2a. Salvar a spec em `.specs/` (OBRIGATÓRIO)
+
+Antes de planejar qualquer coisa, garanta que a spec está salva localmente em:
+
+```
+.specs/{NOME-DA-DEMANDA}/spec.md
+```
+
+Onde `{NOME-DA-DEMANDA}` é o código da spec (ex: `RETRY`, `AGE-CRI`) ou, se não havia código formal, um slug derivado do título (ex: `corrigir-bug-login`).
+
+- Se veio de `formular-spec`: o arquivo já existe, confirme o caminho e siga.
+- Se a spec foi colada no chat: salve o conteúdo exato colado em `.specs/{NOME}/spec.md`. Crie a pasta se não existir. Se já existir arquivo, sobrescreva.
+- Confirme ao usuário: *"Spec salva em `.specs/{NOME}/spec.md` como referência local (não vai pro git). Cole-a no card do tracker se ainda não estiver lá, pra o time ter acesso."*
+
+> Esse passo existe pra que, ao final da entrega, `.specs/{NOME}/` tenha os três artefatos: `spec.md`, `validacao.md` e `contexto-tecnico.md` — tudo centralizado pra repassar pro time.
+
+### 2b. Planejar
 
 Apresente um plano curto contendo:
 
@@ -116,6 +134,7 @@ Espere aprovação antes de começar a codar.
 ### 🚪 Gate 2 — Plano aprovado
 
 Não avance pro Passo 3 sem:
+- [ ] Spec salva em `.specs/{NOME}/spec.md`
 - [ ] Tabela de rastreabilidade completa (se spec formal): todo código tem destino
 - [ ] Lista de arquivos/mudanças concreta (sem "talvez", "provavelmente")
 - [ ] Quem solicitou disse "OK, pode codar"
@@ -232,7 +251,7 @@ Onde `{NOME-DA-DEMANDA}` é o código da spec (ex: `RETRY`, `AGE-CRI`) ou, se a 
 
 - Se a pasta `.specs/{NOME}/` não existir, crie.
 - Se já existir arquivo no destino (re-execução), sobrescreva, esta versão é a mais recente.
-- Confirme ao usuário: *"Guias salvos localmente em `.specs/{NOME}/validacao.md` e `.specs/{NOME}/contexto-tecnico.md` como backup. Esses arquivos NÃO vão pro git, são só pra você não perder o trabalho. **Ambos precisam ir pro PR e/ou comentário do card: o de Validação pra quem for testar, o de Contexto Técnico pra quem for revisar código.**"*
+- Confirme ao usuário: *"Guias salvos em `.specs/{NOME}/validacao.md` e `.specs/{NOME}/contexto-tecnico.md`. Junto com a `spec.md` (salva no Passo 2), os três artefatos estão em `.specs/{NOME}/`. Cole os três no card do tracker e no PR pra o time ter acesso: a spec pra quem vai fazer code review, o de Validação pra quem vai testar, e o de Contexto Técnico pra quem for revisar código ou fazer manutenção depois."*
 
 ---
 
@@ -301,11 +320,12 @@ CORPO (Guia de Validação + Guia de Contexto Técnico, concatenados):
 <corpo do PR, pronto pra colar>
 ─────────────────────────────────────────────────────
 
-📁 Backups locais salvos em:
-   .specs/<NOME>/validacao.md
-   .specs/<NOME>/contexto-tecnico.md
-   (caso esqueça de colar acima, recupera daqui. O ideal é colar pro
-    time enxergar.)
+📁 Artefatos locais salvos em .specs/<NOME>/:
+   spec.md             (a spec de origem)
+   validacao.md        (guia pra quem testa)
+   contexto-tecnico.md (guia pra quem revisa código)
+   Cole os três no card do tracker e no PR pra o time enxergar.
+   (esses arquivos não vão pro git, são só backup local)
 ```
 
 > Sobre `gh`: é o GitHub CLI, ferramenta opcional que cria PR pelo terminal. Se não souber o que é, ignore e use o caminho A (navegador).
@@ -329,9 +349,9 @@ Independente do formato da spec:
 - [ ] Itens de "Fora do Escopo" não foram tocados
 - [ ] **Guia de Validação produzido no Passo 5 e entregue no Passo 6**
 - [ ] **Guia de Contexto Técnico produzido no Passo 5 e entregue no Passo 6**
-- [ ] **Ambos os guias salvos localmente em `.specs/{NOME}/` como backup**
+- [ ] **Três artefatos salvos em `.specs/{NOME}/`: `spec.md`, `validacao.md`, `contexto-tecnico.md`**
 - [ ] Bloco copy-paste do PR (título + corpo + instruções) entregue
-- [ ] Instrução pra postar os Guias também no comentário do card (não só no PR) foi dada
+- [ ] Instrução pra postar spec + guias no card do tracker (não só no PR) foi dada
 - [ ] Nenhum hook foi pulado sem permissão
 - [ ] Nenhum `git push` foi rodado pelo agente sem pedido explícito do usuário
 

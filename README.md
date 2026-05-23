@@ -145,12 +145,13 @@ Legenda: 🌐 versionado (compartilhado pelo time via git) · 💻 local (só na
 │       ├── implementar-demanda/SKILL.md
 │       ├── validar-entrega/SKILL.md
 │       └── gerenciar-memoria/SKILL.md
-└── .specs/                                    💻 workspace local de specs + backups de validação
+└── .specs/                                    💻 workspace local — três artefatos por demanda
     ├── README.md
     ├── .gitignore                             (ignora todo .md interno)
     └── {NOME-DA-DEMANDA}/                     uma pasta por demanda
-        ├── spec.md                            rascunho da spec (se gerada por formular-spec)
-        └── validacao.md                       backup do Guia de Validação (salvo automaticamente)
+        ├── spec.md                            spec (salva automaticamente em formular-spec e implementar-demanda)
+        ├── validacao.md                       Guia de Validação (salvo automaticamente em implementar-demanda)
+        └── contexto-tecnico.md               Guia de Contexto Técnico (salvo automaticamente em implementar-demanda)
 ```
 
 > **Por que `skills/` é local?** As skills são "infra do agente", não do produto. Manter local evita que o repo carregue infraestrutura específica de ferramenta de IA, e deixa cada dev livre pra atualizar a Promptaria no próprio ritmo. O que o time precisa concordar (processo, regras, formato de spec) está nos arquivos versionados acima.
