@@ -98,7 +98,7 @@ Em todos os casos: **não invente requisito**.
 - **Nunca pule hooks de pre-commit** (`--no-verify`) sem permissão explícita.
 - **PR sempre** com base na branch definida na seção `Padrão de branch` deste arquivo.
 - **Se a demanda tem códigos formais** (REQ, RN, AC, RT, HIP, CS, CF, CL, GAR), trate-os como **contrato**. Cada código deve aparecer rastreável no plano, na implementação e nos testes.
-- **Toda entrega exige Guia de Validação.** Sem ele, a tarefa NÃO está pronta. Vai junto na descrição do PR, formato em [`.claude/guia-validacao.md`](.claude/guia-validacao.md). Aplica-se a tudo: feature, bugfix, refactor, ajuste de config.
+- **Toda entrega exige Guia de Validação E Guia de Contexto Técnico.** Sem ambos, a tarefa NÃO está pronta. Vão junto na descrição do PR (Validação primeiro, Contexto Técnico abaixo) e, recomendado, no comentário do card. O de Validação fala com quem testa; o de Contexto Técnico fala com quem revisa código ou faz manutenção depois. Formatos em [`.claude/guia-validacao.md`](.claude/guia-validacao.md) e [`.claude/guia-contexto-tecnico.md`](.claude/guia-contexto-tecnico.md). Aplica-se a tudo: feature, bugfix, refactor, ajuste de config.
 - **Nunca publique nada externo por iniciativa própria.** Sem `git push`, sem `gh pr create`, sem `gh pr comment`. Prepare tudo copy-paste e instrua quem solicitou a executar.
 
 ## Regras inegociáveis do projeto

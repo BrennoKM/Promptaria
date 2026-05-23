@@ -25,8 +25,8 @@ Passo 2 — Planejar (com tabela de rastreabilidade)
 Passo 3 — Implementar
 Passo 4 — Testar
    🚪 Gate 3: Todos AC/CS cobertos por testes passando
-Passo 5 — Gerar Guia de Validação
-   🚪 Gate 4: Guia passa no auto-checklist de qualidade
+Passo 5 — Gerar Guia de Validação + Guia de Contexto Técnico
+   🚪 Gate 4: Ambos os guias passam no auto-checklist de qualidade
 Passo 6 — Entregar bloco copy-paste do PR
 Passo 7 — Cobertura final
 ```
@@ -153,11 +153,17 @@ Se algum item falha: PARE, complete cobertura, **não avance**.
 
 ---
 
-## Passo 5 — Gerar Guia de Validação (OBRIGATÓRIO)
+## Passo 5 — Gerar Guia de Validação + Guia de Contexto Técnico (OBRIGATÓRIO)
 
-> Sem Guia de Validação, a tarefa NÃO está pronta. Esse passo não é opcional.
+> Sem ambos os guias, a tarefa NÃO está pronta. Esse passo não é opcional.
+>
+> O **Guia de Validação** fala com quem valida comportamento (QA, PM, cliente).
+> O **Guia de Contexto Técnico** fala com quem revisa código ou faz manutenção depois.
+> Os dois se complementam, nenhum substitui o outro.
 
-Antes de abrir o PR, produza um Guia de Validação seguindo a estrutura definida em [`.claude/guia-validacao.md`](../../guia-validacao.md). Ele responde 8 seções obrigatórias:
+### 5a. Guia de Validação
+
+Produza um Guia de Validação seguindo a estrutura definida em [`.claude/guia-validacao.md`](../../guia-validacao.md). Ele responde 8 seções obrigatórias:
 
 1. **O que foi entregue** — 2-3 linhas, direto.
 2. **Referência da demanda** — link do card ou código da spec.
@@ -181,32 +187,66 @@ Antes de declarar o guia pronto, valide:
 
 Se algum item falhar, o guia ainda não está pronto.
 
+### 5b. Guia de Contexto Técnico
+
+Produza também um Guia de Contexto Técnico seguindo a estrutura definida em [`.claude/guia-contexto-tecnico.md`](../../guia-contexto-tecnico.md). Ele responde 6 seções obrigatórias:
+
+1. **O que foi alterado** — efeito técnico, antes vs depois.
+2. **Referência da demanda** — link do card + códigos formais entregues.
+3. **Mudanças de dados** — migrations/schemas com efeito em dados existentes.
+4. **Fluxo de chamadas e integrações** — rota/evento/job marcando novo/alterado/removido.
+5. **Validações aplicadas** — RN, RT, guards, permissões, tratamento de erro.
+6. **Possíveis impactos colaterais** — features, jobs, índices, caches afetados indiretamente.
+
+Detalhes completos com exemplos: veja [`.claude/guia-contexto-tecnico.md`](../../guia-contexto-tecnico.md).
+
+### Teste de qualidade dos guias (auto-checklist)
+
+Antes de declarar os guias prontos, valide ambos:
+
+**Guia de Validação:**
+- [ ] Alguém que NUNCA viu essa demanda consegue executar todos os cenários só com o guia?
+- [ ] Os passos são reproduzíveis (dados específicos, não "um qualquer")?
+- [ ] Cada cenário tem resultado esperado mensurável (não "deve funcionar")?
+- [ ] "Fora do escopo" tá explícito pra não gerar bug-fantasma?
+
+**Guia de Contexto Técnico:**
+- [ ] Alguém sem contexto entende em 1 minuto o que mudou tecnicamente?
+- [ ] Migrations/schemas têm o efeito em dados existentes descrito?
+- [ ] O fluxo de chamadas marca o que foi criado, alterado ou removido?
+- [ ] Todas as validações implementadas estão listadas?
+- [ ] Impactos colaterais foram investigados (mesmo que "nenhum")?
+
+Se algum item falhar, o guia ainda não está pronto.
+
 ### Backup local automático (OBRIGATÓRIO)
 
-Depois do guia passar no auto-checklist, **salve uma cópia local** em:
+Depois dos guias passarem no auto-checklist, **salve cópias locais** em:
 
 ```
 .specs/{NOME-DA-DEMANDA}/validacao.md
+.specs/{NOME-DA-DEMANDA}/contexto-tecnico.md
 ```
 
 Onde `{NOME-DA-DEMANDA}` é o código da spec (ex: `RETRY`, `AGE-CRI`) ou, se a demanda não tinha código formal, um slug derivado do título (ex: `corrigir-bug-login`).
 
 - Se a pasta `.specs/{NOME}/` não existir, crie.
-- Se já existir `validacao.md` no destino (re-execução), sobrescreva — esta versão é a mais recente.
-- Confirme ao usuário: *"Guia salvo localmente em `.specs/{NOME}/validacao.md` como backup. Esse arquivo NÃO vai pro git — é só pra você não perder o trabalho caso esqueça de colar no PR. **O guia precisa ir pro PR e/ou comentário do card pra quem for validar conseguir testar.**"*
+- Se já existir arquivo no destino (re-execução), sobrescreva, esta versão é a mais recente.
+- Confirme ao usuário: *"Guias salvos localmente em `.specs/{NOME}/validacao.md` e `.specs/{NOME}/contexto-tecnico.md` como backup. Esses arquivos NÃO vão pro git, são só pra você não perder o trabalho. **Ambos precisam ir pro PR e/ou comentário do card: o de Validação pra quem for testar, o de Contexto Técnico pra quem for revisar código.**"*
 
 ---
 
-### 🚪 Gate 4 — Guia de Validação completo
+### 🚪 Gate 4 — Guias completos
 
 Não avance pro Passo 6 sem:
-- [ ] Todas as 8 seções do Guia preenchidas (sem "TBD" ou placeholder)
-- [ ] Auto-checklist de qualidade do guia 100%
-- [ ] Cenários têm dados específicos (não "um qualquer")
-- [ ] Fora do escopo explícito
-- [ ] Backup local salvo em `.specs/{NOME}/validacao.md`
+- [ ] Todas as 8 seções do Guia de Validação preenchidas (sem "TBD" ou placeholder)
+- [ ] Todas as 6 seções do Guia de Contexto Técnico preenchidas
+- [ ] Auto-checklist de qualidade dos dois guias 100%
+- [ ] Cenários de validação têm dados específicos
+- [ ] Fora do escopo explícito no Guia de Validação
+- [ ] Backups locais salvos em `.specs/{NOME}/validacao.md` e `.specs/{NOME}/contexto-tecnico.md`
 
-Se algum item falha: PARE, refine o guia, **não avance**.
+Se algum item falha: PARE, refine, **não avance**.
 
 ---
 
@@ -219,7 +259,7 @@ Se algum item falha: PARE, refine o guia, **não avance**.
 Monte localmente:
 - **Nome da branch** seguindo o padrão descrito em `CLAUDE.md → Padrão de branch` (criar a branch local com `git checkout -b` é OK, é local)
 - **Título do PR** — curto, descreve a entrega (não copie título do card; resuma o que mudou)
-- **Corpo do PR** — o Guia de Validação completo do Passo 5, seguindo [`.claude/guia-validacao.md`](../../guia-validacao.md)
+- **Corpo do PR** — o Guia de Validação + Guia de Contexto Técnico do Passo 5, concatenados (Validação primeiro, Contexto Técnico abaixo, com separador). Seguir [`.claude/guia-validacao.md`](../../guia-validacao.md) e [`.claude/guia-contexto-tecnico.md`](../../guia-contexto-tecnico.md)
 
 ### 6b. Entregar como bloco copy-paste
 
@@ -246,22 +286,26 @@ Apresente ao usuário, em um único bloco escaneável:
      --title "<título>" --body-file pr-body.md
    (salve o corpo num arquivo pr-body.md antes)
 
-3. RECOMENDADO — postar o Guia também no comentário do card original
-   (ClickUp/Jira/Linear). Quem for validar consegue testar sem precisar
-   abrir a PR. Cole o CORPO abaixo como comentário no card.
+3. RECOMENDADO — postar os Guias também no comentário do card original
+   (ClickUp/Jira/Linear). Quem for validar/revisar consegue acompanhar
+   sem precisar abrir a PR. Cole o CORPO abaixo como comentário no card.
+   Se o tracker tiver campo personalizado pra "prova de desenvolvimento"
+   ou "contexto técnico", cole a parte de Contexto Técnico lá separada.
 
 ─────────────────────────────────────────────────────
 TÍTULO:
 <título sugerido>
 
 ─────────────────────────────────────────────────────
-CORPO (Guia de Validação completo):
-<corpo do PR — pronto pra colar>
+CORPO (Guia de Validação + Guia de Contexto Técnico, concatenados):
+<corpo do PR, pronto pra colar>
 ─────────────────────────────────────────────────────
 
-📁 Backup local salvo em: .specs/<NOME>/validacao.md
-   (caso esqueça de colar acima, recupera daqui — mas o ideal é colar pro
-    time enxergar)
+📁 Backups locais salvos em:
+   .specs/<NOME>/validacao.md
+   .specs/<NOME>/contexto-tecnico.md
+   (caso esqueça de colar acima, recupera daqui. O ideal é colar pro
+    time enxergar.)
 ```
 
 > Sobre `gh`: é o GitHub CLI, ferramenta opcional que cria PR pelo terminal. Se não souber o que é, ignore e use o caminho A (navegador).
@@ -284,9 +328,10 @@ Independente do formato da spec:
 - [ ] Cada restrição (RN, RT, CL) está respeitada no código (não há violação visível)
 - [ ] Itens de "Fora do Escopo" não foram tocados
 - [ ] **Guia de Validação produzido no Passo 5 e entregue no Passo 6**
-- [ ] **Guia salvo localmente em `.specs/{NOME}/validacao.md` como backup**
+- [ ] **Guia de Contexto Técnico produzido no Passo 5 e entregue no Passo 6**
+- [ ] **Ambos os guias salvos localmente em `.specs/{NOME}/` como backup**
 - [ ] Bloco copy-paste do PR (título + corpo + instruções) entregue
-- [ ] Instrução pra postar Guia também no comentário do card (não só no PR) foi dada
+- [ ] Instrução pra postar os Guias também no comentário do card (não só no PR) foi dada
 - [ ] Nenhum hook foi pulado sem permissão
 - [ ] Nenhum `git push` foi rodado pelo agente sem pedido explícito do usuário
 
@@ -301,8 +346,8 @@ Independente do formato da spec:
 - Não fazer force push em branches compartilhadas.
 - Não tratar texto livre como spec completa — sempre aplicar teste de precisão antes.
 - Não ignorar códigos formais da spec — eles são contrato, não decoração.
-- **Não declarar "pronto" sem Guia de Validação produzido e entregue.**
-- Não escrever guia genérico tipo "testar a funcionalidade" — guia ruim é igual a não ter guia.
+- **Não declarar "pronto" sem Guia de Validação E Guia de Contexto Técnico produzidos e entregues.**
+- Não escrever guia genérico tipo "testar a funcionalidade" ou "mudei o controller", guia ruim é igual a não ter guia.
 - **Não rodar `git push` por iniciativa própria.** Push é decisão de quem solicitou; o agente entrega o comando pronto pra copiar.
 - **Não criar PR via `gh` ou API por iniciativa própria.** O agente entrega o título + corpo + URL de criação manual.
 - **Não codar com `[DÚVIDA: ...]` pendente na spec.** Lacuna marcada = bloqueio ativo; resolver antes.

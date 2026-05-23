@@ -23,7 +23,7 @@ A Promptaria opera no princípio **SDD (Spec-Driven Development)**: trata a spec
 
 Reconhece quatro formatos: História de Usuário, Feature Spec, Experiment Plan, Contract Spec.
 
-**Toda entrega exige Guia de Validação** preenchido na descrição do PR. Sem ele, a tarefa não está pronta. Resolve o atrito comum de validador receber "tá no PR, testa aí" sem saber o que testar.
+**Toda entrega exige Guia de Validação + Guia de Contexto Técnico** na descrição do PR. Sem ambos, a tarefa não está pronta. Resolvem dois atritos comuns: validador receber "tá no PR, testa aí" sem saber o que testar; e revisor de código (ou quem mexer no código meses depois) virar arqueólogo pra entender o que era intencional.
 
 ---
 
@@ -134,6 +134,7 @@ Legenda: 🌐 versionado (compartilhado pelo time via git) · 💻 local (só na
 │   ├── .gitignore                             🌐 marca skills/ e memory/ como locais
 │   ├── specs.md                               🌐 referência dos 4 formatos de spec e códigos
 │   ├── guia-validacao.md                      🌐 formato canônico do Guia de Validação
+│   ├── guia-contexto-tecnico.md               🌐 formato canônico do Guia de Contexto Técnico
 │   ├── regras-projeto.md                      🌐 regras inegociáveis específicas do time
 │   ├── memory/                                💻 memórias pessoais de cada dev
 │   │   ├── .gitignore
