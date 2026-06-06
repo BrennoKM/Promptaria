@@ -154,6 +154,41 @@ SPEC ({formato}): {nome curto}
 ─────────────────────────────────────────────────────
 ```
 
+### 4c. (Opcional) Criar o card no tracker via MCP
+
+Verifique se existe `.claude/MCP/ClickUp/config.md` (config local do dev).
+
+- **Se NÃO existir:** pule este passo. O caminho copy-paste do 4b já basta.
+- **Se existir:** ofereça criar o card automaticamente. Leia os IDs e defaults do
+  `config.md` e monte um **preview** antes de qualquer chamada:
+
+  ```
+  Posso criar este card no ClickUp:
+  - Lista:      <nome da lista> (List ID <id>)
+  - Título:     <nome curto da spec>
+  - Descrição:  <a spec em markdown>
+  - Assignee:   <nome> (do default, ou ajuste)
+  - Prioridade: <default>
+  - Due date:   <regra do default, ou nenhuma>
+  - Status:     <status inicial do mapa>
+
+  Criar? (s/n)  — você pode ajustar qualquer campo antes.
+  ```
+
+  **Só chame o MCP com "sim" explícito** (regra de aprovação por escrita — ver
+  `CLAUDE.md → Regras inegociáveis`). Nunca crie por iniciativa própria.
+
+  Após criar:
+  - Devolva a **URL/ID do card** ao usuário.
+  - Grave a referência no topo do `.specs/{NOME}/spec.md` (linha
+    `<!-- ClickUp: <url> -->`) pra rastreabilidade futura no `implementar-demanda`.
+
+> Lembre dos limites do MCP ClickUp: é beta e **não permite excluir**. Se errar algo,
+> corrija via update/comentário, nunca recriando. Detalhes em
+> [`.claude/MCP/ClickUp/README.md`](../../MCP/ClickUp/README.md).
+
+---
+
 Depois, pergunte: *"quer que eu siga pra implementar essa spec agora? (skill `implementar-demanda`)"*
 
 Se sim, a spec construída já vai como input formal pro `implementar-demanda` — o agente vai tratar todos os códigos (REQ/AC/etc.) como contrato verificável. O arquivo `.specs/{NOME}/spec.md` já existe, não precisa salvar de novo.

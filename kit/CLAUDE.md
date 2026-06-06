@@ -88,6 +88,24 @@ Caminhos possíveis:
 
 Em todos os casos: **não invente requisito**.
 
+## Integração MCP (opcional)
+
+A Promptaria pode se conectar a servidores MCP (trackers como ClickUp, etc.) pra ler a
+demanda e escrever de volta (criar card, atribuir, comentar). **É opt-in:** sem MCP
+configurado, o fluxo segue 100% copy-paste, como sempre, e nada muda.
+
+- A escolha de qual MCP conectar (ou nenhum) é feita pela skill [`configurar-projeto`](.claude/skills/configurar-projeto/SKILL.md).
+- A doc genérica de cada MCP (como conectar, capacidades, limites) fica em
+  [`.claude/MCP/`](.claude/MCP/README.md) — **versionada**, compartilhada pelo time.
+- Os IDs e defaults pessoais de cada dev (workspace, assignee, prioridade) ficam em
+  `.claude/MCP/{Servico}/config.md` — **local, gitignorado**, nunca versionado.
+- As skills `formular-spec` e `implementar-demanda` detectam o `config.md`: se existir,
+  oferecem o caminho via MCP; se não, seguem copy-paste.
+
+> **Toda escrita em MCP externo exige aprovação explícita por ação** (mesmo tratamento de
+> `git push`). O agente mostra exatamente o que vai criar/alterar e espera "sim" antes de
+> cada chamada. Ver a regra correspondente na seção abaixo.
+
 ## Regras inegociáveis (Promptaria, universais)
 
 > Regras universais do framework. NÃO editar (são fundação). Pra regras específicas deste projeto, ver [`.claude/regras-projeto.md`](.claude/regras-projeto.md).
@@ -99,7 +117,7 @@ Em todos os casos: **não invente requisito**.
 - **PR sempre** com base na branch definida na seção `Padrão de branch` deste arquivo.
 - **Se a demanda tem códigos formais** (REQ, RN, AC, RT, HIP, CS, CF, CL, GAR), trate-os como **contrato**. Cada código deve aparecer rastreável no plano, na implementação e nos testes.
 - **Toda entrega exige Guia de Validação E Guia de Contexto Técnico.** Sem ambos, a tarefa NÃO está pronta. Vão junto na descrição do PR (Validação primeiro, Contexto Técnico abaixo) e, recomendado, no comentário do card. O de Validação fala com quem testa; o de Contexto Técnico fala com quem revisa código ou faz manutenção depois. Formatos em [`.claude/templates/guia-validacao.md`](.claude/templates/guia-validacao.md) e [`.claude/templates/guia-contexto-tecnico.md`](.claude/templates/guia-contexto-tecnico.md). Aplica-se a tudo: feature, bugfix, refactor, ajuste de config.
-- **Nunca publique nada externo por iniciativa própria.** Sem `git push`, sem `gh pr create`, sem `gh pr comment`. Prepare tudo copy-paste e instrua quem solicitou a executar.
+- **Nunca publique nada externo por iniciativa própria.** Sem `git push`, sem `gh pr create`, sem `gh pr comment`. Prepare tudo copy-paste e instrua quem solicitou a executar. **Escrita em MCP externo** (criar/atribuir/comentar card no ClickUp, etc.) segue a mesma regra: só com **aprovação explícita por ação** — o agente mostra o que vai fazer e espera "sim" antes de cada chamada. Nunca em lote, nunca automático.
 
 ## Regras inegociáveis do projeto
 

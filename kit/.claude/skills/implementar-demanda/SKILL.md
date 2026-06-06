@@ -37,7 +37,21 @@ Os **gates** (🚪) são portões obrigatórios entre fases. Se um gate falhar, 
 
 ## Passo 1 — Reconhecer o formato
 
-Antes de planejar, identifique qual tipo de spec foi colada. Veja a tabela em `CLAUDE.md` na seção "Como receber uma demanda".
+### 1.0 — Origem da demanda (texto colado ou task do MCP)
+
+A demanda normalmente chega como **texto colado** no chat. Mas, se existir
+`.claude/MCP/ClickUp/config.md` e o usuário passar uma **URL ou ID de task do ClickUp**
+(ex: `https://app.clickup.com/t/abc123` ou `abc123`):
+
+- Busque a task via MCP (leitura — não precisa de aprovação; aprovação é só pra escrita).
+- Use a **descrição da task** como o texto da demanda daqui pra frente.
+- Guarde a URL/ID da task: vai ser usada no Passo 6 pra comentar os guias e mover status.
+
+Se não houver MCP ou o usuário colou texto direto, siga normalmente com o texto colado.
+
+### 1.1 — Identificar o formato
+
+Antes de planejar, identifique qual tipo de spec foi colada (ou lida do card). Veja a tabela em `CLAUDE.md` na seção "Como receber uma demanda".
 
 ### 1a. Se for spec formal (tem códigos REQ/RN/AC/RT/HIP/CS/CF/CL/GAR)
 
@@ -337,6 +351,24 @@ Após entregar o bloco, espere o usuário fazer o push + criar o PR. Quando ele 
 ### 6d. (Opcional) Auxiliar o push
 
 Se o usuário pedir explicitamente *"faz o push pra mim"* ou *"roda o git push"*, o agente pode rodar — mas **NUNCA por iniciativa própria**. Push é decisão de quem solicitou.
+
+### 6e. (Opcional) Postar no ClickUp via MCP
+
+Se existir `.claude/MCP/ClickUp/config.md` **e** houver uma task de origem (URL/ID do
+Passo 1, ou card criado no `formular-spec`), ofereça duas ações — **cada uma com
+aprovação explícita e separada** (regra de escrita em MCP, ver `CLAUDE.md`):
+
+1. **Comentar os guias no card.** Preview: *"Posso postar o Guia de Validação + Guia de
+   Contexto Técnico como comentário na task `<url>`. Postar? (s/n)"*. Com "sim", poste o
+   mesmo corpo concatenado do PR (6a).
+2. **Mover o status do card.** Leia o mapa de status do `config.md` (fase "em revisão (PR
+   aberto)"). Preview: *"Posso mover a task de `<status atual>` para `<status de
+   revisão>`. Mover? (s/n)"*. Com "sim", atualize o status.
+
+Regras:
+- Nunca poste/mova em lote nem por iniciativa própria — uma pergunta por ação.
+- Se não houver MCP ou task de origem, pule (o bloco copy-paste do 6b já cobre).
+- O ClickUp MCP **não exclui**; correções via novo comentário/update, nunca apagando.
 
 ---
 

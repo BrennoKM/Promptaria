@@ -129,7 +129,84 @@ Não toque na seção "Como usar este arquivo" — ela é fixa.
 
 ---
 
-## Passo 6 — Validar instalação
+## Passo 6 — Escolher integração MCP (opcional)
+
+A Promptaria pode se conectar a um servidor MCP pra ler a demanda e escrever de volta no
+tracker (criar card, atribuir, comentar). É **opcional e por-dev** — preserva o princípio
+agnóstico do framework.
+
+Pergunte:
+
+> *"Quer conectar a Promptaria a algum MCP pra automatizar o tracker? As escritas sempre
+> pedem sua aprovação, uma a uma. Opções:*
+> *1. **ClickUp** — criar card a partir da spec, atribuir (assignee/prioridade/due
+>    date/status), comentar os guias.*
+> *2. **Nenhum MCP** — mantenho o fluxo copy-paste (você cola no tracker manualmente).*
+> *Qual prefere?"*
+
+### Se escolher "Nenhum MCP"
+Não crie nada. As skills detectam a ausência de `.claude/MCP/{Servico}/config.md` e seguem
+o fluxo copy-paste de sempre. Siga pro Passo 7.
+
+### Se escolher "ClickUp"
+
+1. **Explique a conexão OAuth** (por-dev, uma vez). Instrua a rodar no terminal:
+   ```bash
+   claude mcp add --transport http clickup https://mcp.clickup.com/mcp
+   ```
+   E completar o login OAuth no navegador (ClickUp só aceita OAuth, não API key).
+   Detalhes em [`.claude/MCP/ClickUp/README.md`](../../MCP/ClickUp/README.md).
+
+2. **Colete os IDs e defaults**, uma pergunta de cada vez. Se o MCP já estiver conectado,
+   você pode buscar os valores via MCP (listar workspaces/spaces/lists/membros) e oferecer
+   pra escolher por nome em vez de pedir o ID cru. Itens:
+   - Workspace (Team) ID
+   - Space ID
+   - Lista padrão (List ID) onde os cards nascem
+   - Mapa de assignees (nome → user ID) — pelo menos o do próprio dev
+   - Defaults ao criar card: assignee padrão, prioridade padrão (urgent/high/normal/low),
+     status inicial, e se usa due date por padrão
+   - Mapa de status (fase Promptaria → status do ClickUp): "spec criada", "em
+     implementação", "em revisão (PR aberto)"
+
+3. **Crie o arquivo local** `.claude/MCP/ClickUp/config.md` (gitignorado — é pessoal deste
+   dev, não vai pro git) com os valores coletados, neste formato:
+
+   ```markdown
+   # Configuração — MCP ClickUp (LOCAL, não versionado)
+
+   ## Identificadores
+   - Workspace (Team) ID: <id>
+   - Space ID: <id>
+   - Lista padrão (List ID): <id>
+
+   ## Assignees (nome → user ID)
+   - <nome>: <user id>
+
+   ## Defaults ao criar card
+   - Assignee padrão: <nome/id>
+   - Prioridade padrão: <urgent|high|normal|low>
+   - Status inicial: <status>
+   - Usa due date por padrão: <sim/não — regra, ex: "+3 dias úteis" ou "não">
+
+   ## Mapa de status (fase Promptaria → status ClickUp)
+   - spec criada: <status>
+   - em implementação: <status>
+   - em revisão (PR aberto): <status>
+   ```
+
+   Para qualquer valor que o dev não souber agora, use `[a definir]` (nunca invente IDs).
+
+4. Confirme: *"Config salva em `.claude/MCP/ClickUp/config.md` (local, não vai pro git).
+   As skills `formular-spec` e `implementar-demanda` vão oferecer criar/atualizar cards a
+   partir de agora — sempre pedindo sua aprovação antes de cada escrita."*
+
+> **Extensível:** se no futuro existir outro MCP (Jira, Linear), este passo lista a nova
+> opção e cria `.claude/MCP/{Servico}/config.md` no mesmo padrão.
+
+---
+
+## Passo 7 — Validar instalação
 
 Confira que estes arquivos existem na raiz do repositório:
 
@@ -146,12 +223,14 @@ Confira que estes arquivos existem na raiz do repositório:
 - [ ] `.claude/skills/gerenciar-memoria/SKILL.md`
 - [ ] `.claude/templates/guia-validacao.md`
 - [ ] `.claude/templates/guia-contexto-tecnico.md`
+- [ ] `.claude/MCP/README.md` + `.claude/MCP/ClickUp/README.md` (doc dos MCPs disponíveis)
+- [ ] Se escolheu ClickUp no Passo 6: `.claude/MCP/ClickUp/config.md` (local, com IDs)
 
 Se algum estiver faltando, avisar o usuário (possível instalação incompleta).
 
 ---
 
-## Passo 7 — Limpar marcador
+## Passo 8 — Limpar marcador
 
 Remova o arquivo `.promptaria` da raiz:
 

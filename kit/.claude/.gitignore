@@ -3,13 +3,18 @@
 # Cenário de versionamento:
 # - Versionado (compartilhado pelo time):
 #   CLAUDE.md, .claude/specs.md, .claude/guia-validacao.md, .claude/regras-projeto.md
+#   .claude/MCP/**/README.md  → doc genérica de cada MCP (como conectar, capacidades)
 # - Não versionado (cada dev mantém o seu):
-#   .claude/skills/  → cada dev instala/atualiza Promptaria localmente
-#   .claude/memory/  → memória pessoal de cada dev
+#   .claude/skills/        → cada dev instala/atualiza Promptaria localmente
+#   .claude/memory/        → memória pessoal de cada dev
+#   .claude/MCP/*/config.md → IDs e credenciais pessoais de cada dev (workspace, assignee, etc.)
 #
-# Pra compartilhar aprendizado entre devs, use a seção "Aprendizados do projeto"
-# no CLAUDE.md (versionado).
+# Princípio: informação genérica do projeto vai versionada; informação pessoal
+# do dev fica local. Pra compartilhar aprendizado entre devs, use a seção
+# "Aprendizados do projeto" no CLAUDE.md (versionado).
 
 skills/
 memory/
+# MCP: doc genérica (README.md) versiona; config pessoal (IDs) não
+MCP/*/config.md
 !.gitignore

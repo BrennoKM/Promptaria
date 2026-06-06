@@ -138,6 +138,11 @@ Legenda: 🌐 versionado (compartilhado pelo time via git) · 💻 local (só na
 │   ├── templates/
 │   │   ├── guia-validacao.md                  🌐 formato canônico do Guia de Validação
 │   │   └── guia-contexto-tecnico.md           🌐 formato canônico do Guia de Contexto Técnico
+│   ├── MCP/                                    integração opcional com trackers via MCP
+│   │   ├── README.md                          🌐 doc genérica (como conectar, capacidades)
+│   │   └── ClickUp/
+│   │       ├── README.md                      🌐 doc do MCP do ClickUp (sem IDs)
+│   │       └── config.md                      💻 IDs/defaults pessoais do dev (criado na config)
 │   ├── memory/                                💻 memórias pessoais de cada dev
 │   │   ├── .gitignore
 │   │   └── (memórias criadas pelo agente, não vão pro git)
@@ -173,6 +178,22 @@ Depois de instalado, cole uma demanda no chat. O agente reconhece o formato e di
 A Promptaria reconhece 4 formatos de spec (História de Usuário, Feature Spec, Experiment Plan, Contract Spec) com códigos próprios (REQ, RN, AC, RT, HIP, CS, CF, CL, GAR). A referência completa fica em `.claude/processos/specs.md` no projeto instalado, e o agente consulta sob demanda.
 
 > **O agente nunca publica nada externo por iniciativa própria.** Não dá `git push`, não abre PR, não posta comentário. Ele prepara tudo prontinho pra copiar e colar e instrui passo a passo. Quem solicitou continua no controle de tudo que sai pra fora da máquina.
+
+---
+
+## Integração com MCP (opcional)
+
+A Promptaria pode se conectar a um servidor **MCP** pra ler a demanda direto do tracker e escrever de volta (criar card, atribuir, comentar, mover status), em vez do fluxo copy-paste. É **100% opt-in**: sem MCP, nada muda — o framework segue agnóstico.
+
+Hoje há suporte ao **ClickUp**. A skill `configurar-projeto` pergunta, na instalação, qual MCP conectar (ou nenhum). Se escolher ClickUp:
+
+- Cada dev conecta via OAuth na própria máquina (`claude mcp add --transport http clickup https://mcp.clickup.com/mcp`). O ClickUp aceita só OAuth, não API key.
+- Os IDs e defaults (workspace, lista, assignees, prioridade, status) ficam em `.claude/MCP/ClickUp/config.md` — **local, gitignorado**, pessoal de cada dev.
+- A doc genérica de cada MCP (como conectar, capacidades, limites) fica em `.claude/MCP/` — **versionada**, compartilhada pelo time.
+
+A regra de ouro não muda: **toda escrita externa exige aprovação explícita por ação.** O agente mostra exatamente o que vai criar/alterar no ClickUp e espera "sim" antes de cada chamada — nunca em lote, nunca automático. O caminho copy-paste continua disponível como fallback (o MCP do ClickUp está em beta e não permite exclusão).
+
+> **Princípio de versionamento:** informação genérica do projeto vai versionada; informação pessoal do dev (IDs, credenciais) fica local. Mesmo padrão das skills e da memória.
 
 ---
 
